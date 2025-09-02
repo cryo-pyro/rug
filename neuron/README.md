@@ -65,12 +65,12 @@ Got it—cleaner and tighter.
 
 Here’s the **updated pipeline** and a paste-ready .md:
 
-```markdown
+
 # Neuron Learning Pentad (minimal)
 
-$$
+```math
 \theta \to \Sigma\!\cdot\!\mathrm{Cov}(\theta) \to h(t) \to e \to \theta'
-$$
+```
 
 **Where**
 - $\theta$ — prior / faith (baseline policy or belief)
@@ -78,17 +78,17 @@ $$
 - $h(t)$ — integrated latent state over time (absorbs what used to be $S(t)$)
 - $e = y - \hat y$ — residual/error (observation minus prediction from $h(t)$)
 - $\theta'$ — updated seed for **recursion** (next-gen prior)
-```
+
 
 ### Why this is nice
 
 * **No redundant $S(t)$:** all state evolution is carried by $h(t)$; the *only* thing that leaves the soma is the **error** $e$.
 * **Universal update view:**
 
-  ```math
+```math
   \theta' = \mathcal{U}\big(\theta, e\big), \quad 
   e = y - \hat y\big(h(t;\theta)\big)
-  ```
+```
 
   For gradient learners: $\theta'=\theta-\eta\,\nabla_\theta \mathcal{L}(y,\hat y)$.
   For Bayesian learners: $\theta'=\operatorname{posterior}(\theta\,|\,e)$.
