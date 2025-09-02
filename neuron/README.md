@@ -33,9 +33,9 @@ Love this prompt. Here’s how that WSJ “American-dream pessimism” plugs str
 * **Error loop / learning rule:**
   You already wrote it:
 
-  ```math
+```math
   \theta \to \Sigma\!\cdot\!\text{Cov}(\theta) \to h(t) \to S(t) \to e \to \theta'
-  ```
+```
 
   The WSJ vibe is **large residuals** $e = y - \hat{y}$ (what people feel vs. what models/narratives predict). With sustained $|e|$, the system updates to $\theta'$ that encodes “merit → payoff is unreliable,” i.e., **lower exploration, higher demand for insurance/guarantees**.
 
@@ -90,8 +90,17 @@ Here’s the **updated pipeline** and a paste-ready .md:
   e = y - \hat y\big(h(t;\theta)\big)
 ```
 
-  For gradient learners: $\theta'=\theta-\eta\,\nabla_\theta \mathcal{L}(y,\hat y)$.
-  For Bayesian learners: $\theta'=\operatorname{posterior}(\theta\,|\,e)$.
+  For gradient learners
+
+```math  
+$\theta'=\theta-\eta\,\nabla_\theta \mathcal{L}(y,\hat y)$.
+```
+
+  For Bayesian learners: 
+
+```math 
+$\theta'=\operatorname{posterior}(\theta\,|\,e)$.
+```
 
 ### Control knobs (neuron-speak)
 
