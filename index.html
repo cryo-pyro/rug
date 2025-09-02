@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neuron of Intelligence — Minimal</title>
+<style>
+  :root{
+    --bg:#0a0f1c; --panel:#111726; --ink:#e6edf3; --dim:#9aa7b4;
+    --line:#2b3347; --accent:#7ff0d9; --halo:rgba(127,240,217,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font:14px/1.5 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;overflow:hidden}
+
+  .wrap{display:flex;height:100%}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;min-width:0}
+  .panel{width:360px;max-width:42vw;background:var(--panel);border-left:1px solid var(--line);padding:18px 18px 72px;overflow:auto}
+  .panel .ghost{color:#6b7280;text-align:center;margin-top:20vh;font-style:italic}
+
+  /* Detail sections */
+  .card{background:#0d1324;border:1px solid #2a364d;border-radius:10px;padding:16px;margin:10px 0;opacity:0;transform:translateY(6px);transition:.25s ease}
+  .card h3{font-size:14px;font-weight:800;color:#bfe8ff;margin-bottom:6px}
+  .card p{color:#b7c8cf}
+  .card.active{opacity:1;transform:none;box-shadow:0 0 0 1px var(--halo), 0 0 24px var(--halo)}
+  .small{font-size:12px;color:var(--dim)}
+
+  /* Controls */
+  .ctrls{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;align-items:center}
+  .btn{appearance:none;border:1px solid var(--line);background:#0d1324;color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer}
+  .btn:hover{border-color:#3a4a67}
+  .chip{font-size:12px;padding:8px 10px}
+  .step{font-variant-numeric:tabular-nums}
+
+  /* Read menu (essay / analysis) */
+  .fab{position:fixed;top:16px;right:16px}
+  .fab .btn{border-radius:999px;padding:10px 14px}
+  .menu{position:absolute;top:48px;right:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:220px;display:none}
+  .menu a,.menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--ink);padding:10px 12px;cursor:pointer}
+  .menu a:hover,.menu button:hover{background:#0d1324}
+  .show{display:block}
+
+  /* SVG minimal */
+  svg{max-width:100%;max-height:92vh}
+  .wire{fill:none;stroke-linecap:round;stroke-width:3;opacity:.85}
+  .node{fill:#111726;stroke-width:2}
+  .label{fill:#fff;font:700 12px/1 Inter, system-ui, Arial}
+  .text{fill:#e6edf3;font:600 11px/1 Inter, system-ui, Arial}
+  .hot{filter:brightness(1.4) drop-shadow(0 0 10px var(--accent))}
+  .clickable{cursor:pointer;transition:.2s ease}
+  .clickable:hover{filter:brightness(1.2)}
+  @media (max-width:1000px){
+    .wrap{flex-direction:column}
+    .panel{width:100%;max-width:100%;max-height:44vh}
+    body{overflow:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- DIAGRAM -->
+  <div class="stage">
+    <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-label="Neuron of Intelligence">
+      <defs>
+        <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#7ff0d9"/>
+        </marker>
+        <linearGradient id="axonGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8ab4ff"/><stop offset="100%" stop-color="#7ff0d9"/>
+        </linearGradient>
+      </defs>
+
+      <rect fill="#0a0f1c" width="800" height="600"/>
+
+      <!-- TITLE -->
+      <text class="label" x="400" y="26" text-anchor="middle" style="font-size:16px">NEURON OF INTELLIGENCE</text>
+
+      <!-- 12 o'clock: SOCIOLOGY / LOVE -->
+      <g class="clickable part" data-key="sociology">
+        <path class="wire" stroke="#ff7f9a" d="M400,100 Q390,150 400,200" marker-end="url(#arrow)"/>
+        <circle cx="400" cy="80" r="18" fill="#87ceeb" stroke="#ffffff" stroke-width="2"/>
+        <text class="text" x="400" y="86" text-anchor="middle" fill="#000">LOVE</text>
+        <text class="label" x="400" y="50" text-anchor="middle">SOCIOLOGY</text>
+      </g>
+
+      <!-- 9 o'clock: BIOLOGY / HOPE -->
+      <g class="clickable part" data-key="biology">
+        <path class="wire" stroke="#4ecdc4" d="M200,300 Q300,290 350,300" marker-end="url(#arrow)"/>
+        <circle cx="180" cy="300" r="18" fill="#ffb6c1" stroke="#ffffff" stroke-width="2"/>
+        <text class="text" x="180" y="306" text-anchor="middle" fill="#000">HOPE</text>
+        <text class="label" x="120" y="300" text-anchor="middle">BIOLOGY</text>
+      </g>
+
+      <!-- 6 o'clock: PHYSICS / FAITH -->
+      <g class="clickable part" data-key="physics">
+        <path class="wire" stroke="#98e07d" d="M400,500 Q390,450 400,400" marker-end="url(#arrow)"/>
+        <circle cx="400" cy="520" r="18" fill="#a1f0b2" stroke="#ffffff" stroke-width="2"/>
+        <text class="text" x="400" y="526" text-anchor="middle" fill="#000">FAITH</text>
+        <text class="label" x="400" y="550" text-anchor="middle">PHYSICS</text>
+      </g>
+
+      <!-- SOMA -->
+      <g class="clickable part" data-key="soma">
+        <circle class="node" cx="400" cy="300" r="50" fill="#10182e" stroke="#7ff0d9" stroke-width="3"/>
+        <text class="label" x="400" y="298" text-anchor="middle">SOMA</text>
+        <text class="text" x="400" y="314" text-anchor="middle">splice(F, H, L)</text>
+      </g>
+
+      <!-- AXON -->
+      <g class="clickable part" data-key="axon">
+        <path class="wire" stroke="url(#axonGrad)" stroke-width="8" d="M450,300 L580,300"/>
+        <circle fill="#7ff0d9" cx="490" cy="300" r="3"/>
+        <circle fill="#7ff0d9" cx="520" cy="300" r="3"/>
+        <circle fill="#7ff0d9" cx="550" cy="300" r="3"/>
+      </g>
+
+      <!-- EFFECTORS -->
+      <g class="clickable part" data-key="effectors">
+        <path class="wire" stroke="#c7d4ff" stroke-width="4" d="M580,300 L650,250" marker-end="url(#arrow)"/>
+        <path class="wire" stroke="#c7d4ff" stroke-width="4" d="M580,300 L650,300" marker-end="url(#arrow)"/>
+        <path class="wire" stroke="#c7d4ff" stroke-width="4" d="M580,300 L650,350" marker-end="url(#arrow)"/>
+
+        <rect class="node" x="650" y="238" width="80" height="24" rx="4" fill="#141b2d" stroke="#546a9a"/>
+        <text class="text" x="690" y="254" text-anchor="middle">CELL→TISSUE</text>
+
+        <rect class="node" x="650" y="288" width="80" height="24" rx="4" fill="#141b2d" stroke="#546a9a"/>
+        <text class="text" x="690" y="304" text-anchor="middle">ORGAN→SYSTEM</text>
+
+        <rect class="node" x="650" y="338" width="80" height="24" rx="4" fill="#141b2d" stroke="#546a9a"/>
+        <text class="text" x="690" y="354" text-anchor="middle">GRID/MESH</text>
+      </g>
+
+      <!-- GATES -->
+      <g class="clickable part" data-key="gates">
+        <rect class="node" x="370" y="140" width="60" height="16" rx="3" fill="#111726" stroke="#3a556a"/>
+        <text class="text" x="400" y="152" text-anchor="middle" fill="#fff">GATE</text>
+
+        <rect class="node" x="280" y="290" width="60" height="16" rx="3" fill="#111726" stroke="#3a556a"/>
+        <text class="text" x="310" y="302" text-anchor="middle" fill="#fff">GATE</text>
+
+        <rect class="node" x="370" y="440" width="60" height="16" rx="3" fill="#111726" stroke="#3a556a"/>
+        <text class="text" x="400" y="452" text-anchor="middle" fill="#fff">GATE</text>
+      </g>
+
+      <!-- FEEDBACK -->
+      <g class="clickable part" data-key="feedback">
+        <path class="wire" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="6 4" d="M680,250 Q550,150 400,140"/>
+        <path class="wire" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="6 4" d="M680,300 Q500,350 310,300"/>
+        <path class="wire" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="6 4" d="M680,350 Q550,450 400,450"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- DETAILS / STAGE PANEL -->
+  <aside class="panel" id="panel">
+    <div class="ghost" id="ghost">Click any element—or press <b>Next</b>—to step through the neuron.</div>
+
+    <div class="card" data-card="physics">
+      <h3>PHYSICS / FAITH</h3>
+      <p><b>Universal consensus layer.</b> Thermodynamics as bedrock; tree hydraulics as canonical flow. Faith that laws hold gives the system a stable prior.</p>
+    </div>
+
+    <div class="card" data-card="biology">
+      <h3>BIOLOGY / HOPE</h3>
+      <p><b>Emergent complexity.</b> Ritual and fractals: alveoli, nephrons, villi… coordination drives that scale from tissue to polity.</p>
+    </div>
+
+    <div class="card" data-card="sociology">
+      <h3>SOCIOLOGY / LOVE</h3>
+      <p><b>Tribal competition.</b> Meaning-making under recursion: we model others modeling us—identity fuels selective attention.</p>
+    </div>
+
+    <div class="card" data-card="soma">
+      <h3>SOMA — Integration Hub</h3>
+      <p><b>splice(F, H, L)</b> → weighted thresholds &amp; timing produce a unified policy signal.</p>
+    </div>
+
+    <div class="card" data-card="axon">
+      <h3>AXON — Decision Highway</h3>
+      <p><b>All-or-nothing commit.</b> Once fired, the compressed output travels fast and far.</p>
+    </div>
+
+    <div class="card" data-card="effectors">
+      <h3>EFFECTORS — Multi-Scale Action</h3>
+      <p>Implementation cascades: <b>cell → tissue → organ → system → grid</b>. Each level feeds back differently.</p>
+    </div>
+
+    <div class="card" data-card="gates">
+      <h3>GATES — Adaptive Control</h3>
+      <p>Context-sensitive thresholds regulate which inputs matter now (attention, salience, hazard).</p>
+    </div>
+
+    <div class="card" data-card="feedback">
+      <h3>FEEDBACK — Learning Loops</h3>
+      <p>Fast/slow/perennial adjustments close the loop; outputs reshape tomorrow’s priors.</p>
+      <p class="small">Tip: hit <b>Reset</b> to return to idle.</p>
+    </div>
+
+    <!-- Optional: tiny in-page blurb for the jostling/Trump analysis -->
+    <div class="card" data-card="analysis">
+      <h3>“Five GOP Tribes” — Neuron Lens (blurb)</h3>
+      <p>Use the soma to compress three axes: <b>Moral order</b>, <b>Security posture</b>, <b>Distribution</b>. Coalition management yields productive incoherence across effectors (e.g., tariffs vs business wing; Medicaid trims vs economic populists; Ukraine/Israel posture splitting neocons vs isolationists). The winner maintains just-coherent-enough signals while not tripping the gates.</p>
+      <p class="small">Open the full write-up from the <b>Read</b> menu.</p>
+    </div>
+  </aside>
+</div>
+
+<!-- FLOATING CONTROLS -->
+<div class="ctrls" role="toolbar" aria-label="Stage controls">
+  <span class="chip btn step" id="stepLabel">Stage 0/7</span>
+  <button class="btn" id="prevBtn" title="Previous">Prev</button>
+  <button class="btn" id="nextBtn" title="Next">Next</button>
+  <button class="btn" id="resetBtn" title="Reset">Reset</button>
+</div>
+
+<!-- READ MENU -->
+<div class="fab">
+  <button class="btn" id="readBtn">Read ▾</button>
+  <div class="menu" id="readMenu" role="menu" aria-label="Read menu">
+    <a href="https://cryo-pyro.github.io/t/" target="_blank" rel="noopener">Essay (site: /t/)</a>
+    <a href="https://cryo-pyro.github.io/int/" target="_blank" rel="noopener">Neuron page (site: /int/)</a>
+    <button type="button" id="openBlurb">Show analysis blurb in panel</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const order = ["physics","biology","sociology","soma","axon","effectors","feedback"];
+  let idx = -1;
+
+  const cards = [...document.querySelectorAll('.card')];
+  const parts = [...document.querySelectorAll('.part')];
+  const ghost = document.getElementById('ghost');
+  const stepLabel = document.getElementById('stepLabel');
+
+  function clearActive(){
+    cards.forEach(c=>c.classList.remove('active'));
+    parts.forEach(p=>p.classList.remove('hot'));
+  }
+
+  function show(key){
+    clearActive();
+    const card = document.querySelector(`.card[data-card="${key}"]`);
+    const part = document.querySelector(`.part[data-key="${key}"]`);
+    if(card) card.classList.add('active');
+    if(part) part.classList.add('hot');
+    if(ghost) ghost.style.display='none';
+    stepLabel.textContent = `Stage ${Math.max(idx+1,0)}/${order.length}`;
+  }
+
+  function reset(){
+    idx = -1;
+    clearActive();
+    ghost.style.display='block';
+    stepLabel.textContent = `Stage 0/${order.length}`;
+  }
+
+  // Stage buttons
+  document.getElementById('nextBtn').addEventListener('click', ()=>{
+    idx = Math.min(idx+1, order.length-1);
+    show(order[idx]);
+  });
+  document.getElementById('prevBtn').addEventListener('click', ()=>{
+    idx = Math.max(idx-1, -1);
+    if(idx === -1) reset(); else show(order[idx]);
+  });
+  document.getElementById('resetBtn').addEventListener('click', reset);
+
+  // Click diagram parts
+  parts.forEach(p=>{
+    p.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const key = p.getAttribute('data-key');
+      idx = order.indexOf(key);
+      show(key);
+    });
+  });
+
+  // Click outside (stage area) to clear
+  document.addEventListener('click', (e)=>{
+    const inside = e.target.closest('.part') || e.target.closest('.panel') || e.target.closest('.fab') || e.target.closest('.ctrls');
+    if(!inside) reset();
+  });
+
+  // Read menu
+  const readBtn = document.getElementById('readBtn');
+  const readMenu = document.getElementById('readMenu');
+  readBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    readMenu.classList.toggle('show');
+  });
+  document.addEventListener('click', ()=> readMenu.classList.remove('show'));
+  document.getElementById('openBlurb').addEventListener('click', ()=>{
+    readMenu.classList.remove('show');
+    const blurb = document.querySelector('.card[data-card="analysis"]');
+    if(blurb){
+      ghost.style.display='none';
+      clearActive();
+      blurb.classList.add('active');
+    }
+  });
+
+  // Init
+  reset();
+})();
+</script>
+</body>
+</html>
