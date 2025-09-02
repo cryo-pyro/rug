@@ -99,7 +99,7 @@ Here’s the **updated pipeline** and a paste-ready .md:
   For Bayesian learners: 
 
 ```math 
-\theta'=\operatorname{posterior}(\theta\,|\,e)
+\theta'=(\theta\,|\,e)
 ```
 
 ### Control knobs (neuron-speak)
