@@ -75,8 +75,8 @@ Here’s the **updated pipeline** and a paste-ready .md:
 **Where**
 - $\theta$ — prior / faith (baseline policy or belief)
 - $\Sigma\!\cdot\!\mathrm{Cov}(\theta)$ — uncertainty structure / hope in the ritual (what you trust about your models)
-- $h(t)$ — integrated latent state over time (absorbs what used to be $S(t)$)
-- $e = y - \hat y$ — residual/error (observation minus prediction from $h(t)$)
+- $h(t)$ — integrated latent state over time (absorbs what used to be $S(t)$ )
+- $e = y - \hat y$ — residual/error (observation minus prediction from $h(t)$ )
 - $\theta'$ — updated seed for **recursion** (next-gen prior)
 
 
