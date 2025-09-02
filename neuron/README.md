@@ -93,13 +93,13 @@ Here’s the **updated pipeline** and a paste-ready .md:
   For gradient learners
 
 ```math  
-$\theta'=\theta-\eta\,\nabla_\theta \mathcal{L}(y,\hat y)$.
+\theta'=\theta-\eta\,\nabla_\theta \mathcal{L}(y,\hat y)
 ```
 
   For Bayesian learners: 
 
 ```math 
-$\theta'=\operatorname{posterior}(\theta\,|\,e)$.
+\theta'=\operatorname{posterior}(\theta\,|\,e)
 ```
 
 ### Control knobs (neuron-speak)
