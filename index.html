@@ -217,9 +217,11 @@
 <!-- READ MENU -->
 <div class="fab">
   <button class="btn" id="readBtn">Read ▾</button>
+  <button type="button" id="openOrth">Orthogonal inputs (soma) — open in panel</button>
   <div class="menu" id="readMenu" role="menu" aria-label="Read menu">
     <a href="https://cryo-pyro.github.io/t/" target="_blank" rel="noopener">Essay (site: /t/)</a>
     <a href="https://cryo-pyro.github.io/int/" target="_blank" rel="noopener">Neuron page (site: /int/)</a>
+    <a href="orthogonal-integration.html" target="_blank" rel="noopener">Orthogonal inputs (soma)</a>
     <button type="button" id="openBlurb">Show analysis blurb in panel</button>
   </div>
 </div>
@@ -304,6 +306,26 @@
   // Init
   reset();
 })();
+
+  document.getElementById('openOrth').addEventListener('click', async ()=>{
+  readMenu.classList.remove('show');
+  try{
+    const res = await fetch('orthogonal-integration.html');
+    const html = await res.text();
+    const panel = document.getElementById('panel');
+    const ghost = document.getElementById('ghost');
+    if(ghost) ghost.style.display='none';
+    panel.innerHTML = `<div class="card active"><h3>Orthogonal inputs (soma)</h3>
+      <p>Loaded inline. <a href="orthogonal-integration.html" target="_blank" rel="noopener">Open full page</a></p>
+      <div style="border:1px solid #2a364d;border-radius:10px;overflow:hidden;max-height:60vh">
+        <iframe src="orthogonal-integration.html" style="width:100%;height:60vh;border:0;background:#0a0f1c"></iframe>
+      </div>
+    </div>`;
+  }catch(e){
+    alert('Could not load orthogonal-integration.html');
+  }
+});
+
 </script>
 </body>
 </html>
