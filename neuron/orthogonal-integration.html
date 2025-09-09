@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reconciling Orthogonal Inputs — Soma/Axon Playbook</title>
+<style>
+  :root{
+    --bg:#0a0f1c; --panel:#111726; --ink:#e6edf3; --dim:#9aa7b4;
+    --line:#2b3347; --accent:#7ff0d9; --halo:rgba(127,240,217,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font:14px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .page{max-width:980px;margin:auto;padding:28px 18px 64px}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  header h1{font-size:20px;letter-spacing:.3px}
+  .meta{color:var(--dim);font-size:12px}
+
+  .card{background:#0d1324;border:1px solid #2a364d;border-radius:12px;padding:18px;margin:12px 0}
+  .card h2{font-size:16px;margin-bottom:6px;color:#bfe8ff}
+  .card h3{font-size:14px;margin:10px 0 6px;color:#cfe9ff}
+  .small{font-size:12px;color:var(--dim)}
+  .pill{display:inline-block;border:1px solid #2a364d;border-radius:999px;padding:4px 8px;margin:2px 6px 2px 0;font-size:12px;color:#cfe9ff;background:#0b1326}
+
+  .figure{display:flex;gap:18px;align-items:center;justify-content:center;background:#0b1222;border:1px solid #2a2f47;border-radius:12px;padding:14px;margin:10px 0}
+  svg{max-width:100%;height:auto}
+  code{background:#0b1222;border:1px solid #2a2f47;border-radius:6px;padding:2px 6px}
+  pre{background:#0b1222;border:1px solid #2a2f47;border-radius:10px;padding:12px;overflow:auto}
+
+  .grid{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:12px}
+  @media (max-width:860px){.grid{grid-template-columns:1fr}}
+
+  .callout{border-left:3px solid var(--accent);padding:10px 12px;background:#0c162a;border-radius:8px}
+  footer{margin-top:28px;color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Reconciling Orthogonal Inputs — Soma/Axon Playbook</h1>
+    <div class="meta">θ→Σ→h(t)→e→θ′ • Neuron of Intelligence</div>
+  </header>
+
+  <div class="card">
+    <h2>TL;DR</h2>
+    <p>
+      The soma’s job (<b>e</b>: Olympus / Canopy) is to <b>reconcile orthogonal inputs</b>—the three afferents do not coordinate and often fire on different clocks and priors. 
+      Reconciliation = <i>normalize</i> → <i>gate</i> → <i>fuse</i> → <i>commit</i> → <i>feedback</i>.
+      Use timing windows and hazard-aware thresholds so that faith (physics), hope (biology), and love (sociology) can constructively interfere rather than jam the line.
+    </p>
+  </div>
+
+  <div class="figure" aria-label="Orthogonal inputs merging in the soma and exiting the axon">
+    <svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg" role="img">
+      <defs>
+        <linearGradient id="axonGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8ab4ff"/><stop offset="100%" stop-color="#7ff0d9"/>
+        </linearGradient>
+        <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#7ff0d9"/>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="900" height="240" fill="#0a0f1c"/>
+
+      <!-- Three orthogonal dendrites -->
+      <path d="M120,40 C220,60 260,90 340,115" stroke="#98e07d" stroke-width="3" fill="none"/>
+      <path d="M120,120 C220,120 260,120 340,120" stroke="#4ecdc4" stroke-width="3" fill="none"/>
+      <path d="M120,200 C220,180 260,150 340,125" stroke="#ff7f9a" stroke-width="3" fill="none"/>
+
+      <!-- Soma -->
+      <circle cx="380" cy="120" r="46" fill="#10182e" stroke="#7ff0d9" stroke-width="3"/>
+      <text x="380" y="118" text-anchor="middle" fill="#e6edf3" style="font:700 12px Inter,system-ui">SOMA</text>
+      <text x="380" y="136" text-anchor="middle" fill="#bfe8ff" style="font:600 11px Inter,system-ui">normalize → fuse → fire</text>
+
+      <!-- Axon -->
+      <path d="M426,120 L700,120" stroke="url(#axonGrad)" stroke-width="8"/>
+      <circle cx="500" cy="120" r="3" fill="#7ff0d9"/>
+      <circle cx="560" cy="120" r="3" fill="#7ff0d9"/>
+      <circle cx="620" cy="120" r="3" fill="#7ff0d9"/>
+
+      <!-- Effectors -->
+      <path d="M700,120 L820,70" stroke="#c7d4ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+      <path d="M700,120 L820,120" stroke="#c7d4ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+      <path d="M700,120 L820,170" stroke="#c7d4ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+      <text x="826" y="76" fill="#cfe9ff" style="font:600 11px Inter">CELL→TISSUE</text>
+      <text x="826" y="126" fill="#cfe9ff" style="font:600 11px Inter">ORGAN→SYSTEM</text>
+      <text x="826" y="176" fill="#cfe9ff" style="font:600 11px Inter">GRID/MESH</text>
+    </svg>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>1) Normalize</h2>
+      <p>
+        Bring inputs to a comparable scale and variance before any vote or fusion.
+      </p>
+      <div>
+        <span class="pill">z-score / min–max</span>
+        <span class="pill">whitening (PCA)</span>
+        <span class="pill">energy bound</span>
+        <span class="pill">unit priors</span>
+      </div>
+      <pre><code>// pseudo
+F,H,L = normalize(F), normalize(H), normalize(L)</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>2) Gate (Context)</h2>
+      <p>
+        Open/close pathways based on salience & hazard. Gates set <b>when</b> each input matters.
+      </p>
+      <div>
+        <span class="pill">attention masks</span>
+        <span class="pill">contextual thresholds</span>
+        <span class="pill">quorum / veto</span>
+        <span class="pill">fatigue / refractory</span>
+      </div>
+      <pre><code>if salience(F) &gt; τ_F: pass_F = 1 else pass_F = 0</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>3) Timing Window (h(t))</h2>
+      <p>
+        The three afferents are <b>orthogonal</b> and unsynchronized. Use a hazard-shaped window to align decisions without forcing fake consensus.
+      </p>
+      <div>
+        <span class="pill">hazard(t)</span>
+        <span class="pill">phase alignment</span>
+        <span class="pill">deadline softening</span>
+      </div>
+      <pre><code>w(t) = sigmoid(α(h(t) - κ))  // open window as risk rises</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>4) Fuse (Policies)</h2>
+      <p>
+        Combine gated inputs into a single membrane potential. Choose a policy per domain.
+      </p>
+      <div>
+        <span class="pill">weighted sum</span>
+        <span class="pill">softmax / Boltzmann</span>
+        <span class="pill">majority / Borda</span>
+        <span class="pill">AND / OR / veto</span>
+      </div>
+      <pre><code>V = wF*F + wH*H + wL*L  // or use softmax choice
+fire = V &gt; θ_fire</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>5) Commit (Axon)</h2>
+      <p>
+        Decisions are <b>all-or-nothing</b> and compressive. After commit, route to effectors with the right granularity (cell→grid).
+      </p>
+      <div>
+        <span class="pill">packetize intent</span>
+        <span class="pill">latency budget</span>
+        <span class="pill">idempotence</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>6) Feedback (Learning)</h2>
+      <p>
+        Update priors and weights by outcome. Distinguish <i>fast</i> (gain tweak), <i>slow</i> (habit), and <i>perennial</i> (identity) loops.
+      </p>
+      <div>
+        <span class="pill">delta rule</span>
+        <span class="pill">Kalman/LMS</span>
+        <span class="pill">policy gradients</span>
+        <span class="pill">structural credit assignment</span>
+      </div>
+      <pre><code>w ← w + η · (reward - expected) · ∂V/∂w</code></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Conflict Patterns & Playbook</h2>
+    <h3>• Physics vs Sociology</h3>
+    <p>Law-bound constraints vs identity-driven aims. <span class="pill">Rule-of-law first</span> ⇒ <span class="pill">simulate alternatives</span> ⇒ <span class="pill">bounded compromise</span>.</p>
+    <h3>• Biology vs Physics</h3>
+    <p>Legacy ritual vs new energetic reality. <span class="pill">deprecate gently</span> ⇒ <span class="pill">dual-run</span> ⇒ <span class="pill">switch-over</span>.</p>
+    <h3>• Sociology vs Biology</h3>
+    <p>Coalition demands vs organismal capacity. <span class="pill">quota gates</span> ⇒ <span class="pill">scarcity broadcast</span> ⇒ <span class="pill">rotate load</span>.</p>
+  </div>
+
+  <div class="card callout">
+    <h2>Implementation Notes</h2>
+    <ul>
+      <li><b>Keep the clocks explicit.</b> Label whose clock you’re on (F/H/L) before fusing.</li>
+      <li><b>Expose your gates.</b> Make thresholds and veto powers observable; log why signals were ignored.</li>
+      <li><b>Separate policy from transport.</b> Soma decides; axon only delivers.</li>
+      <li><b>Prefer degradable commitments.</b> Design effectors with graceful abort/rollback where possible.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Drop this file anywhere in your repo and add it as a new link under <b>Read ▾</b>.
+  </footer>
+</div>
+</body>
+</html>
